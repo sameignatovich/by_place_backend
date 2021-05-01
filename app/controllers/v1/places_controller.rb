@@ -1,4 +1,4 @@
-class PlacesController < ApplicationController
+class V1::PlacesController < ApplicationController
   before_action :set_place, only: [:show, :update, :destroy]
 
   # GET /places
@@ -41,7 +41,7 @@ class PlacesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_place
-      @place = Place.find(params[:id])
+      @place = Place.find_by(uri: params[:uri])
     end
 
     # Only allow a list of trusted parameters through.
