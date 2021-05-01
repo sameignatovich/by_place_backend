@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
-  resources :places
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  namespace :v1 do
+    resources :places, only: [:index, :show], param: :uri
+  end
 end
