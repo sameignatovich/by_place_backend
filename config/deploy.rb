@@ -5,7 +5,7 @@ set :application, "by_place"
 set :repo_url, "git@github.com:sameignatovich/by_place_backend.git"
 set :branch, "main"
 set :rails_env, "production"
-set :deploy_to, "/home/nginx/www/api.soligorsk.place"
+set :deploy_to, "/home/nginx/www/api.by.place"
 
 set :format, :airbrussh
 set :format_options, truncate: false
