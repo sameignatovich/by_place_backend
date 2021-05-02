@@ -26,8 +26,8 @@ group :development do
   gem 'capistrano-bundler', '~> 2.0'
   gem 'capistrano-passenger'
   gem 'capistrano-rvm'
-  # gem 'ed25519'
-  # gem 'bcrypt_pbkdf'
+  gem 'ed25519'
+  gem 'bcrypt_pbkdf'
 end
 
 gem 'passenger'
