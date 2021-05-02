@@ -1,0 +1,19 @@
+<img class="logo-img" alt="SP" height="64" width="64" src="<%= Rails.configuration.x.app_url %><%= asset_pack_url 'media/images/logo.png' %>">
+<div class="container">
+  <h2>Регистрация на сайте Soligorsk Place</h2>
+  <hr/>
+  <div class="mail-body">
+    <p>Здравствуйте, <%= @user.fullname %>!</p>
+    <p>Недавно Вы создали аккаунт на Soligorsk Place. Подтвердите его чтобы завершить регистрацию. Это можно сделать нажав по ссылке ниже.</p>
+    <p><a href="<%= @confirmation_url %>" class="button">Подтвердить e-mail</a></p>
+    <p> Если вы не создавали аккаунт на нашем сайте: просто проигнорируйте письмо. Без подтверждения адреса электронной почты невозможно авторизоваться на нашем сервисе.</p>
+    <div class="sign">
+      <p>---</p>
+      <p>С уважением,</p>
+      <p>команда Soligorsk Place</p>
+    </div>
+  </div>
+</div>
+<div class="underletter">
+  <em>&copy; 2021 Soligorsk Place</em>
+</div>
