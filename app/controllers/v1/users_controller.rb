@@ -1,4 +1,4 @@
-class Api::V1::UsersController < ApplicationController
+class V1::UsersController < ApplicationController
   # POST /v1/signup.json
   def create
     @user = User.new(user_params)
