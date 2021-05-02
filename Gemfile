@@ -20,6 +20,14 @@ end
 group :development do
   gem 'listen', '~> 3.3'
   gem 'spring'
+
+  gem 'capistrano', '~> 3.16', require: false
+  gem 'capistrano-rails', '~> 1.6', require: false
+  gem 'capistrano-bundler', '~> 2.0'
+  gem 'capistrano-passenger'
+  gem 'capistrano-rvm'
+  # gem 'ed25519'
+  # gem 'bcrypt_pbkdf'
 end
 
 gem 'passenger'
