@@ -1,6 +1,4 @@
 class V1::AuthController < ApplicationController
-  jwt_secret = Rails.application.credentials.jwt_secret!
-
   # POST /v1/signin.json
   def signin
     @user = User.find_by_email(user_params[:email])
@@ -38,6 +36,10 @@ class V1::AuthController < ApplicationController
   end
 
   private
+    def jwt_secret
+      return Rails.application.credentials.jwt_secret!
+    end
+
     # Only allow a list of trusted parameters through.
     def user_params
       params.require(:user).permit(:email, :password)
