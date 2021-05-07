@@ -12,11 +12,9 @@ class V1::AuthController < ApplicationController
 
   # DELETE /v1/signout.json
   def signout
-    token = cookies.signed[:token]
+    token = decode_jwt(params[:token])
     Token.find(token).inactive!
-    cookies.delete :token
-    reset_session
-    render json: {csrf: form_authenticity_token, signout: true}, status: :ok
+    render json: {signout: true}, status: :ok
   end
 
   # POST /v1/autologin.json
