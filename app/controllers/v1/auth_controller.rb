@@ -21,16 +21,14 @@ class V1::AuthController < ApplicationController
 
   # POST /v1/autologin.json
   def autologin
-    if token = cookies.signed[:token]
+    if token = decode_jwt(params[:token])
       begin
         @current_user = Token.find_by(id: token, status: :active).user
         render json: {user: {username: @current_user.username, fullname: @current_user.fullname}, loggedIn: true}, status: :ok
       rescue
-        cookies.delete :token
         render json: {loggedIn: false}, status: :ok
       end
     else
-      cookies.delete :token
       render json: {loggedIn: false}, status: :ok
     end
   end
@@ -50,8 +48,8 @@ class V1::AuthController < ApplicationController
       return JWT.encode data, jwt_secret, 'HS256'
     end
 
-    def decode_jwt(token)
-      decoded_token = JWT.decode token, jwt_secret, true, { algorithm: 'HS256' }
+    def decode_jwt(jwt)
+      decoded_token = JWT.decode jwt, jwt_secret, true, { algorithm: 'HS256' }
       return decoded_token[0]['data']
     end
 
