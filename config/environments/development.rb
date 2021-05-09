@@ -66,6 +66,6 @@ Rails.application.configure do
 
   config.x.front_app_url = 'http://localhost:8080'
   config.x.api_app_url = 'http://localhost:3000'
-  config.x.static_app_url = 'https://dev-static.soligorsk.place'
+  config.x.static_app_url = 'https://dev-static.by.place'
   config.action_mailer.default_url_options = { host: 'localhost', port: 8080}
 end
