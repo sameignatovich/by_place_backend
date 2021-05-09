@@ -111,6 +111,8 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
+  config.x.front_app_url = 'https://dev-front.soligorsk.place'
+  config.x.api_app_url = 'https://dev-api.soligorsk.place'
   config.x.static_app_url = 'https://dev-static.soligorsk.place'
   config.action_mailer.default_url_options = { host: 'dev-front.by.place' }
 end

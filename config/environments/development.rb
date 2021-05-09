@@ -64,6 +64,8 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
+  config.x.front_app_url = 'http://localhost:8080'
+  config.x.api_app_url = 'http://localhost:3000'
   config.x.static_app_url = 'https://dev-static.soligorsk.place'
   config.action_mailer.default_url_options = { host: 'localhost', port: 8080}
 end
