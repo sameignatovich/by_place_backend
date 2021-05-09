@@ -1,19 +1,16 @@
 class V1::PlacesController < ApplicationController
   before_action :set_place, only: [:show, :update, :destroy]
 
-  # GET /places
+  # GET /v1/places
   def index
     @places = Place.all
-
-    render json: @places
   end
 
-  # GET /places/1
+  # GET /v1/places/1
   def show
-    render json: @place
   end
 
-  # POST /places
+  # POST /v1/places
   def create
     @place = Place.new(place_params)
 
@@ -24,7 +21,7 @@ class V1::PlacesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /places/1
+  # PATCH/PUT /v1/places/1
   def update
     if @place.update(place_params)
       render json: @place
@@ -33,7 +30,7 @@ class V1::PlacesController < ApplicationController
     end
   end
 
-  # DELETE /places/1
+  # DELETE /v1/places/1
   def destroy
     @place.destroy
   end
