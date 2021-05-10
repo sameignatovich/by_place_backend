@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     end
 
     controller :users do
+      get 'profile/:username', to: 'users#show'
       post 'signup', to: 'users#create'
       post 'user/confirm', to: 'users#confirm'
       post 'user/reset_request', to: 'users#reset_request'

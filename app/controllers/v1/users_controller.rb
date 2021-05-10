@@ -1,4 +1,11 @@
 class V1::UsersController < ApplicationController
+  before_action :set_user, only: [:show]
+
+  # GET /v1/profile/:username.json
+  def show
+    render json: @user
+  end
+
   # POST /v1/signup.json
   def create
     @user = User.new(user_params)
@@ -54,7 +61,10 @@ class V1::UsersController < ApplicationController
   end
 
   private
-    # Only allow a list of trusted parameters through.
+    def set_user
+      @user = User.find_by(username: params[:username])
+    end
+
     def user_params
       params.require(:user).permit(:username, :fullname, :email, :password, :password_confirmation)
     end
