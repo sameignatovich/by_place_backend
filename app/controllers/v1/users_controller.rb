@@ -1,5 +1,11 @@
 class V1::UsersController < ApplicationController
-  # POST /v1/signup.json
+  before_action :set_user, only: [:show]
+
+  # GET /v1/profile/:username
+  def show
+  end
+
+  # POST /v1/signup
   def create
     @user = User.new(user_params)
 
@@ -11,7 +17,7 @@ class V1::UsersController < ApplicationController
     end
   end
 
-  # POST /v1/user/confirm.json
+  # POST /v1/user/confirm
   def confirm
     if @user = User.find_by(email_confirmation_token: params[:email_confirmation_token])
       @user.update(email_confirmed: true, email_confirmation_token: nil)
@@ -21,7 +27,7 @@ class V1::UsersController < ApplicationController
     end
   end
 
-  # POST /v1/user/reset_request.json
+  # POST /v1/user/reset_request
   def reset_request
     if @user = User.find_by(email: user_params[:email])
       if (@user.password_reset_sent_at || DateTime.new(0)) < DateTime.current-1.hour
@@ -32,7 +38,7 @@ class V1::UsersController < ApplicationController
     render json: {message: 'Reset request sent'}, status: :ok # Send this response in any situation for data protection (e.g. email disclosure)
   end
 
-  # PATCH /v1/user/reset.json
+  # PATCH /v1/user/reset
   def reset
     if @user = User.find_by(password_reset_token: params[:password_reset_token])
       if (@user.password_reset_sent_at || DateTime.new(0)) > DateTime.current-1.hour
@@ -54,7 +60,10 @@ class V1::UsersController < ApplicationController
   end
 
   private
-    # Only allow a list of trusted parameters through.
+    def set_user
+      @user = User.find_by(username: params[:username])
+    end
+
     def user_params
       params.require(:user).permit(:username, :fullname, :email, :password, :password_confirmation)
     end

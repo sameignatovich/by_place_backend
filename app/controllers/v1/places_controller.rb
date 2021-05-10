@@ -36,12 +36,10 @@ class V1::PlacesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_place
       @place = Place.find_by(uri: params[:uri])
     end
 
-    # Only allow a list of trusted parameters through.
     def place_params
       params.require(:place).permit(:name, :uri)
     end
