@@ -1,8 +1,18 @@
 class V1::UsersController < ApplicationController
   before_action :set_user, only: [:show]
+  before_action :authorization, only: [:update]
 
   # GET /v1/profile/:username
   def show
+  end
+
+  # PUT /v1/profile/update
+  def update
+    if current_user.update(user_params)
+      render json: { user: { fullname: current_user.fullname, username: current_user.username, email: current_user.email } }
+    else
+      render json: current_user.errors, status: :unprocessable_entity
+    end
   end
 
   # POST /v1/signup

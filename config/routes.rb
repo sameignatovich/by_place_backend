@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
     controller :users do
       get 'profile/:username', to: 'users#show'
+      put 'profile/update', to: 'users#update'
       post 'signup', to: 'users#create'
       post 'user/confirm', to: 'users#confirm'
       post 'user/reset_request', to: 'users#reset_request'
