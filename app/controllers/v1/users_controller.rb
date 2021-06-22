@@ -1,15 +1,24 @@
 class V1::UsersController < ApplicationController
   before_action :set_user, only: [:show]
-  before_action :authorization, only: [:update]
+  before_action :authorization, only: [:update, :update_avatar]
 
   # GET /v1/profile/:username
   def show
   end
 
-  # PUT /v1/profile/update
+  # PUT /v1/profile/update/main
   def update
-    if current_user.update(user_params)
+    if current_user.update(main_user_params)
       render json: { user: { fullname: current_user.fullname, username: current_user.username, email: current_user.email } }
+    else
+      render json: current_user.errors, status: :unprocessable_entity
+    end
+  end
+
+  # PUT /v1/profile/update/avatar
+  def update_avatar
+    if current_user.avatar.attach(avatar_user_params[:avatar])
+      render json: { avatar: polymorphic_url(current_user.avatar) }
     else
       render json: current_user.errors, status: :unprocessable_entity
     end
@@ -76,5 +85,17 @@ class V1::UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:username, :fullname, :email, :password, :password_confirmation)
+    end
+
+    def main_user_params
+      params.require(:user).permit(:username, :fullname, :email)
+    end
+
+    def avatar_user_params
+      params.require(:user).permit(:avatar)
+    end
+
+    def password_user_params
+      params.require(:user).permit(:password, :new_password, :new_password_confirmation)
     end
 end
