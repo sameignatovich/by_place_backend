@@ -6,7 +6,8 @@ class V1::AuthController < ApplicationController
     @user = User.find_by_email(user_params[:email])
     if @user and @user.authenticate(user_params[:password])
       token = jwt_token(@user)
-      render json: {token: token, user: {username: @user.username, fullname: @user.fullname, avatar: polymorphic_url(@user.avatar)}, message: 'Signin successful'}, status: :ok
+      avatar = polymorphic_url(@user.avatar)
+      render json: {token: token, user: {username: @user.username, fullname: @user.fullname, avatar: avatar}, message: 'Signin successful'}, status: :ok
     else
       render json: {message: 'Wrong email or password'}, status: :unprocessable_entity
     end
