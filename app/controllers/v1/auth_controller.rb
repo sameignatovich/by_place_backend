@@ -15,7 +15,7 @@ class V1::AuthController < ApplicationController
 
   # DELETE /v1/signout.json
   def signout
-    token = decode_jwt(params[:token])
+    token = decoded_token[0]['data']
     Token.find(token).inactive!
     render json: {signout: true}, status: :ok
   end
