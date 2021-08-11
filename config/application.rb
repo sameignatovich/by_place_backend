@@ -38,5 +38,7 @@ module ByPlace
     config.api_only = true
 
     config.action_controller.allow_forgery_protection = false
+
+    config.autoload_paths << Rails.root.join('lib')
   end
 end
