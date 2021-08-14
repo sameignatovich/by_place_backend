@@ -1,15 +1,18 @@
 class V1::UsersController < ApplicationController
-  before_action :set_user, only: [:show]
   before_action :authorization, only: [:update, :update_avatar]
 
   # GET /v1/profile/:username
   def show
+    @user = User.find_by(username: params[:username])
+
+    render json: { user: { username: @user.username, fullname: @user.fullname, avatar: polymorphic_url(current_user.avatar) } }
   end
 
   # PUT /v1/profile/update/main
   def update
-    if current_user.update(main_user_params)
-      render json: { user: { fullname: current_user.fullname, username: current_user.username, email: current_user.email } }
+    @user = current_user
+    if @user.update(main_user_params)
+      render json: { user: { username: @user.username, fullname: @user.fullname, email: @user.email, avatar: polymorphic_url(current_user.avatar) } }
     else
       render json: current_user.errors, status: :unprocessable_entity
     end
@@ -79,10 +82,6 @@ class V1::UsersController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.find_by(username: params[:username])
-    end
-
     def user_params
       params.require(:user).permit(:username, :fullname, :email, :password, :password_confirmation)
     end
