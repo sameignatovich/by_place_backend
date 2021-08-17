@@ -5,9 +5,9 @@ class V1::AuthController < ApplicationController
   def signin
     @user = User.find_by_email(user_params[:email])
     if @user and @user.authenticate(user_params[:password])
-      token = jwt_token(@user)
+      token = @user.tokens.create
       avatar = avatar_url(@user)
-      render json: {token: token, user: {username: @user.username, fullname: @user.fullname, avatar: avatar}, message: 'Signin successful'}, status: :ok
+      render json: {token: ApplicationJwt.encode(token.id), user: {username: @user.username, fullname: @user.fullname, avatar: avatar}, message: 'Signin successful'}, status: :ok
     else
       render json: {message: 'Wrong email or password'}, status: :unprocessable_entity
     end
@@ -15,7 +15,7 @@ class V1::AuthController < ApplicationController
 
   # DELETE /v1/signout.json
   def signout
-    token = decoded_token
+    token = ApplicationJwt.decode(received_token)
     Token.find(token).inactive!
     render json: {signout: true}, status: :ok
   end
@@ -35,17 +35,8 @@ class V1::AuthController < ApplicationController
       user.avatar.attached? ? polymorphic_url(user.avatar) : nil
     end
 
-    def jwt_secret
-      return Rails.application.credentials.jwt_secret!
-    end
-
-    def encode_jwt(token)
-      data = {data: @token.id}
-      return JWT.encode data, jwt_secret, 'HS256'
-    end
-
-    def jwt_token(user)
-      @token = user.tokens.create
-      return encode_jwt(@token.id)
+    def received_token
+      #header: { 'Authorization': 'Bearer <token>' }
+      request.headers['Authorization'].split(' ')[1]
     end
 end
