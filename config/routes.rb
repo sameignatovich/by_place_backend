@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     end
 
     controller :users do
+      get 'users', to: 'users#index'
       get 'profile/:username', to: 'users#show'
       put 'profile/update/main', to: 'users#update'
       put 'profile/update/avatar', to: 'users#update_avatar'

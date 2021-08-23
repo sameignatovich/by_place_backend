@@ -1,14 +1,22 @@
 class V1::UsersController < ApplicationController
-  before_action :authorization, only: [:update, :update_avatar]
+  before_action :check_authorization, only: [:update, :update_avatar]
+  before_action :check_admin_access, only: [:index]
 
-  # GET /v1/profile/:username
+  # GET /v1/profiles.json
+  def index
+    @users = User.all
+
+    render json: { users: @users }
+  end
+
+  # GET /v1/profile/:username.json
   def show
     @user = User.find_by(username: params[:username])
 
     render json: { user: { username: @user.username, fullname: @user.fullname, avatar: polymorphic_url(current_user.avatar) } }
   end
 
-  # PUT /v1/profile/update/main
+  # PUT /v1/profile/update/main.json
   def update
     @user = current_user
     if @user.update(main_user_params)
@@ -18,7 +26,7 @@ class V1::UsersController < ApplicationController
     end
   end
 
-  # PUT /v1/profile/update/avatar
+  # PUT /v1/profile/update/avatar.json
   def update_avatar
     if current_user.avatar.attach(avatar_user_params[:avatar])
       render json: { avatar: polymorphic_url(current_user.avatar) }
@@ -27,7 +35,7 @@ class V1::UsersController < ApplicationController
     end
   end
 
-  # POST /v1/signup
+  # POST /v1/signup.json
   def create
     @user = User.new(user_params)
 
@@ -39,7 +47,7 @@ class V1::UsersController < ApplicationController
     end
   end
 
-  # POST /v1/user/confirm
+  # POST /v1/user/confirm.json
   def confirm
     if @user = User.find_by(email_confirmation_token: params[:email_confirmation_token])
       @user.update(email_confirmed: true, email_confirmation_token: nil)
@@ -49,7 +57,7 @@ class V1::UsersController < ApplicationController
     end
   end
 
-  # POST /v1/user/reset_request
+  # POST /v1/user/reset_request.json
   def reset_request
     if @user = User.find_by(email: user_params[:email])
       if (@user.password_reset_sent_at || DateTime.new(0)) < DateTime.current-1.hour
@@ -60,7 +68,7 @@ class V1::UsersController < ApplicationController
     render json: {message: 'Reset request sent'}, status: :ok # Send this response in any situation for data protection (e.g. email disclosure)
   end
 
-  # PATCH /v1/user/reset
+  # PATCH /v1/user/reset.json
   def reset
     if @user = User.find_by(password_reset_token: params[:password_reset_token])
       if (@user.password_reset_sent_at || DateTime.new(0)) > DateTime.current-1.hour
