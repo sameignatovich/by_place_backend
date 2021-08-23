@@ -1,5 +1,5 @@
 class V1::AuthController < ApplicationController
-  before_action :authorization, only: [:autologin]
+  before_action :check_authorization, only: [:autologin, :signout]
   
   # POST /v1/signin.json
   def signin
