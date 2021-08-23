@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::API
-  def authorization
+  def check_authorization
     render json: { message: 'Unauthorized' }, status: :unauthorized unless logged_in?
+  end
+
+  def check_admin_access
+    render json: { message: 'Forbidden' }, status: :forbidden unless admin?
   end
 
   def current_user
@@ -15,5 +19,9 @@ class ApplicationController < ActionController::API
 
     def logged_in?
       !!current_user
+    end
+
+    def admin?
+      !!current_user.admin
     end
 end
