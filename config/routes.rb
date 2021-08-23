@@ -30,5 +30,9 @@ Rails.application.routes.draw do
     controller :users do
       get 'users', to: 'users#index'
     end
+
+    controller :places do
+      get 'places', to: 'places#index'
+    end
   end
 end
