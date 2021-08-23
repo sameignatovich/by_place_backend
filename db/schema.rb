@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2021_05_02_151448) do
 
   create_table "tokens", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
+    t.integer "access", default: 0, null: false
     t.integer "status", default: 1
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

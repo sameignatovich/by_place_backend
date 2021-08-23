@@ -1,13 +1,5 @@
 class V1::UsersController < ApplicationController
   before_action :check_authorization, only: [:update, :update_avatar]
-  before_action :check_admin_access, only: [:index]
-
-  # GET /v1/profiles.json
-  def index
-    @users = User.all
-
-    render json: { users: @users }
-  end
 
   # GET /v1/profile/:username.json
   def show

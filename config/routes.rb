@@ -19,4 +19,16 @@ Rails.application.routes.draw do
       patch 'user/reset', to: 'users#reset'
     end
   end
+
+  namespace :admin do
+    controller :auth do
+      post 'autologin'
+      post 'signin'
+      delete 'signout'
+    end
+    
+    controller :users do
+      get 'users', to: 'users#index'
+    end
+  end
 end

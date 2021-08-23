@@ -1,11 +1,11 @@
-class V1::AuthController < ApplicationController
+class Admin::AuthController < ApplicationController
   before_action :check_authorization, only: [:autologin, :signout]
   
   # POST /v1/signin.json
   def signin
     @user = User.find_by_email(user_params[:email])
-    if @user and @user.authenticate(user_params[:password])
-      token = @user.tokens.create(access: :regular)
+    if @user.admin and @user.authenticate(user_params[:password])
+      token = @user.tokens.create(access: :admin)
       avatar = avatar_url(@user)
       render json: {token: ApplicationJwt.encode(token.id), user: {username: @user.username, fullname: @user.fullname, avatar: avatar}, message: 'Signin successful'}, status: :ok
     else
