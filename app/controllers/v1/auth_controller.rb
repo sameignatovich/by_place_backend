@@ -9,7 +9,7 @@ class V1::AuthController < ApplicationController
       avatar = avatar_url(@user)
       render json: {token: ApplicationJwt.encode(token.id), user: {username: @user.username, fullname: @user.fullname, avatar: avatar}, message: 'Signin successful'}, status: :ok
     else
-      render json: {message: 'Wrong email or password'}, status: :unprocessable_entity
+      render json: {message: 'Wrong email or password'}, status: :not_found
     end
   end
 

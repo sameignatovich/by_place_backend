@@ -33,6 +33,8 @@ Rails.application.routes.draw do
 
     controller :places do
       get 'places', to: 'places#index'
+      post 'places', to: 'places#create'
+      delete 'places/:id', to: 'places#destroy'
     end
   end
 end

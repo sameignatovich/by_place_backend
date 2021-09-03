@@ -1,6 +1,6 @@
 class Admin::AuthController < ApplicationController
-  before_action :check_authorization, only: [:autologin, :signout]
-  
+  before_action :check_admin_access, only: [:autologin, :signout]
+
   # POST /v1/signin.json
   def signin
     @user = User.find_by_email(user_params[:email])
@@ -9,7 +9,7 @@ class Admin::AuthController < ApplicationController
       avatar = avatar_url(@user)
       render json: {token: ApplicationJwt.encode(token.id), user: {username: @user.username, fullname: @user.fullname, avatar: avatar}, message: 'Signin successful'}, status: :ok
     else
-      render json: {message: 'Wrong email or password'}, status: :unprocessable_entity
+      render json: {message: 'Wrong email or password'}, status: :not_found
     end
   end
 
