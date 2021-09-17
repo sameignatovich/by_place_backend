@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     
     controller :users do
       get 'users', to: 'users#index'
+      delete 'users/:id', to: 'users#destroy'
     end
 
     controller :places do

@@ -20,7 +20,7 @@ class Admin::PlacesController < ApplicationController
     end
   end
 
-  # DELETE /admin/places.json
+  # DELETE /admin/places/:id.json
   def destroy
     if @place.destroy
       render json: {message: 'Place destroyed'}, status: :ok
