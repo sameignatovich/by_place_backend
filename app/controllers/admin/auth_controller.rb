@@ -23,7 +23,7 @@ class Admin::AuthController < ApplicationController
   # POST /v1/autologin.json
   def autologin
     avatar = avatar_url(current_user)
-    render json: {user: {email: current_user.email, fullname: current_user.fullname, username: current_user.username, avatar: avatar}, loggedIn: true}, status: :ok
+    render json: {user: {id: current_user.id, email: current_user.email, fullname: current_user.fullname, username: current_user.username, avatar: avatar}, loggedIn: true}, status: :ok
   end
 
   private
