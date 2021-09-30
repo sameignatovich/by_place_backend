@@ -7,7 +7,7 @@ class Admin::AuthController < ApplicationController
     if @user.admin and @user.authenticate(user_params[:password])
       token = @user.tokens.create(access: :admin)
       avatar = avatar_url(@user)
-      render json: {token: ApplicationJwt.encode(token.id), user: {username: @user.username, fullname: @user.fullname, avatar: avatar}, message: 'Signin successful'}, status: :ok
+      render json: { token: ApplicationJwt.encode(token.id), user: {id: current_user.id, email: current_user.email, fullname: current_user.fullname, username: current_user.username, avatar: avatar }, message: 'Signin successful' }, status: :ok
     else
       render json: {message: 'Wrong email or password'}, status: :not_found
     end
@@ -23,7 +23,7 @@ class Admin::AuthController < ApplicationController
   # POST /v1/autologin.json
   def autologin
     avatar = avatar_url(current_user)
-    render json: {user: {id: current_user.id, email: current_user.email, fullname: current_user.fullname, username: current_user.username, avatar: avatar}, loggedIn: true}, status: :ok
+    render json: { user: { id: current_user.id, email: current_user.email, fullname: current_user.fullname, username: current_user.username, avatar: avatar }, loggedIn: true, message: 'Autologin successful' }, status: :ok
   end
 
   private
