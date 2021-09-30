@@ -7,12 +7,16 @@ class Admin::UsersController < ApplicationController
     @users = User.all.with_attached_avatar
   end
 
-  # DELETE /admin/places/:id.json
+  # DELETE /admin/users/:id.json
   def destroy
-    if @user.destroy
-      render json: {message: 'User destroyed'}, status: :ok
+    if current_user != @user
+      if @user.destroy
+        render json: {message: 'User destroyed'}, status: :ok
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: {message: 'You cannot delete yourself'}, status: :not_acceptable
     end
   end
 
